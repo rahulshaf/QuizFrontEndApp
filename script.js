@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         score+=wrongAnswersQuestions.reduce((sum,q)=>sum+q.negativeMarks,0)
         const totalAttemptedQuestions=rightAnswersQuestions.length+wrongAnswersQuestions.length
         scoreDisplay.textContent=`${score} out of ${totalMarks}`
-        resultDetails.textContent=`Total Attemted Questions : ${totalAttemptedQuestions} | Correct Answers : ${rightAnswersQuestions.length} | Wrong Answers : ${wrongAnswersQuestions.length}`
+        resultDetails.textContent=`Total Attempted Questions : ${totalAttemptedQuestions} | Correct Answers : ${rightAnswersQuestions.length} | Wrong Answers : ${wrongAnswersQuestions.length}`
 
 
         //console.log('correct',rightAnswersQuestions)
