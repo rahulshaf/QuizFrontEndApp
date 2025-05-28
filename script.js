@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     const startBtn= document.getElementById('start-btn')
     const questionLabel=document.getElementById('question-label')
     const resultDetails=document.getElementById('result-details')
+    const resultStatus=document.getElementById('overall-Result')
+    const viewQuestionButton= document.getElementById('view-Questions')
+    const displayQuizRules= document.getElementById('quiz-rules')
+    const rules=document.getElementById('rules')
     const questions = [
         {
             id:0,
@@ -23,8 +27,8 @@ document.addEventListener('DOMContentLoaded',()=>{
           question: "Which planet is known as the Red Planet?",
           choices: ["Mars", "Venus", "Jupiter", "Saturn"],
           answer: "Mars",
-          marks:3,
-          negativeMarks:-2
+          marks:2,
+          negativeMarks:-1
         },
         {
             id:2,
@@ -36,7 +40,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             "Mark Twain",
           ],
           answer: "William Shakespeare",
-          marks:1,
+          marks:2,
           negativeMarks:-1
         },
       ];
@@ -45,12 +49,21 @@ document.addEventListener('DOMContentLoaded',()=>{
       let rightAnswersQuestions=[]
       let wrongAnswersQuestions=[]
 
-      startBtn.addEventListener('click',startQuize)
+      startBtn.addEventListener('click',viewRules)
+      viewQuestionButton.addEventListener('click',startQuize)
       nextBtn.addEventListener('click',nextQuestion)
-      restartBtn.addEventListener('click',startQuize)
+      restartBtn.addEventListener('click',viewRules)
+
+      function viewRules(){
+        startBtn.classList.add('hidden')
+        resultDisplay.classList.add('hidden')
+        displayQuizRules.classList.remove('hidden')
+        rules.innerHTML=`<p>1.There are total ${questions.length} number of questions in quiz.</p></br><p>2.For every correct answers you will be awarded with certain number of Marks mentioned in each question.</p></br><p>3.For every incorrect answer, a panalty will be applied mentioned as Negative Marks in each question. </p></br><p> 4.To pass this quiz you have to score more than 70% marks.</p></br><p>5.To deselect a selected option in question you have to click again on it.</p>`
+        
+      }
 
       function startQuize(){
-        
+        displayQuizRules.classList.add('hidden')
         startBtn.classList.add('hidden')
         questionDisplay.classList.remove('hidden')
         nextBtn.classList.remove('hidden')
@@ -82,14 +95,33 @@ document.addEventListener('DOMContentLoaded',()=>{
     function submitQuestion(choice,ind){
         let question=questions[currentQuestionIndex]
         let {choices}=question
+        let deselectFlag=false
         // highligth selected choice
         choices.forEach((choice,index)=>{
             let li=document.getElementById(index)
-            if(index==ind)
-                li.classList.add('select-Question')
+            if(index==ind){
+                //console.log(li.classList.contains('select-Question'))
+                if(li.classList.contains('select-Question')){
+                    deselectFlag=true
+                    li.classList.remove('select-Question')
+                 }
+                 else
+                    li.classList.add('select-Question')
+                }
+                
             else
                 li.classList.remove('select-Question')
         })
+
+        if(deselectFlag){
+            // remove question from wrongAnswer Array
+                wrongAnswersQuestions=wrongAnswersQuestions.filter((q)=>q!=question)
+            
+            // remove question from rightAnswer Array
+                rightAnswersQuestions=rightAnswersQuestions.filter((q)=>q!=question)
+            return
+    
+        }
         if(choice===question.answer){
             // rem0ve question from wrongAnswer Array
             if(wrongAnswersQuestions.find((q)=>q==question)){
@@ -129,9 +161,22 @@ document.addEventListener('DOMContentLoaded',()=>{
         let score=rightAnswersQuestions.reduce((sum,q)=>sum+q.marks,0)
         score+=wrongAnswersQuestions.reduce((sum,q)=>sum+q.negativeMarks,0)
         const totalAttemptedQuestions=rightAnswersQuestions.length+wrongAnswersQuestions.length
-        scoreDisplay.textContent=`${score} out of ${totalMarks}`
-        resultDetails.textContent=`Total Attempted Questions : ${totalAttemptedQuestions} | Correct Answers : ${rightAnswersQuestions.length} | Wrong Answers : ${wrongAnswersQuestions.length}`
 
+        let percentage=((score/totalMarks)*100).toFixed(2)
+        scoreDisplay.textContent=`${score} out of ${totalMarks} (${percentage}%)`
+        resultDetails.innerHTML=`<p>Total Attempted Questions : ${totalAttemptedQuestions}</p> <p>Correct Answers : ${rightAnswersQuestions.length}</p> <p>Wrong Answers : ${wrongAnswersQuestions.length}</p>`
+        
+        
+        if(percentage>=70){
+            resultStatus.textContent="Pass"
+            resultStatus.classList.remove('fail')
+            resultStatus.classList.add('pass')
+        }
+        else{
+            resultStatus.textContent="Fail"
+            resultStatus.classList.remove('pass')
+            resultStatus.classList.add('fail')
+        }
 
         //console.log('correct',rightAnswersQuestions)
         //console.log('wrong',wrongAnswersQuestions)

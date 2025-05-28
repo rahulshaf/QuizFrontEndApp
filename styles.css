@@ -66,8 +66,32 @@ button:hover {
 .hidden {
   display: none;
 }
+p {
+  margin-top: 1%;
+}
+.pass{
+ color:rgb(151, 233, 151);
+  padding: 2px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  font-size: large;
+}
+.fail{
+  
+  margin-top: 2%;
+  margin-bottom: 2%;
+  color: rgb(234, 9, 9);
+  padding: 2px;
+  font-size: large;
+}
 
 #question-label {
   font-size: small;
   color:aquamarine
+}
+#rules{
+  text-align:left
+}
+#view-Questions{
+  margin-top: 3%;
 }

@@ -9,6 +9,11 @@
   <body>
     <div class="container">
       <h1>Quiz App</h1>
+      <div id="quiz-rules" class='hidden'>
+        <h2>Rules:</h2>
+        <p id="rules"></p>
+        <button id="view-Questions">View Question</button>
+      </div>
       <div id="quiz-container">
         <div id="question-container" class="hidden">
           <h2 id="question-label"></h2>
@@ -19,9 +24,11 @@
           <button id="next-btn" class="hidden">Next Question</button>
         </div>
         <div id="result-container" class="hidden">
-          <h2>Your Score:</h2>
+          <h2>Yours Score</h2>
           <p id="score"></p>
+          
           <p id="result-details"></p>
+          <p id="overall-Result"></p>
           <button id="restart-btn">Restart Quiz</button>
         </div>
         <button id="start-btn">Start Quiz</button>
