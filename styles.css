@@ -42,9 +42,6 @@ li {
   cursor: pointer;
   transition: background-color 0.3s;
 }
-li:hover {
-  background-color: #6200ea;
-}
 .select-Question {
   background-color: #6200ea;
 }
